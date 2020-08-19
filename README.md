@@ -4,4 +4,4 @@
 - Añade nodos de manera manual
 - Cuenta cuantos nodos tiene el árbol
 - Muestra el árbol binario en inOrden
-- Libera memeria o elimina el árbol
+- Libera memoria o elimina el árbol
