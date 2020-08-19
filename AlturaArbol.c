@@ -16,16 +16,22 @@ typedef struct nodo
 }nodo;
 
 //-------------------------
-
+int cont;
 //---Prototipos
 char menu();
+
 nodo *crearNodo(int dato);
 nodo *insertar(nodo *raiz,int dato);
 nodo *arbolAleatorio(nodo *raiz);
+void mostrarArbol(nodo *ruta);
+void liberar(nodo*);
+void contNodos(nodo *ruta);
+void alturaArb(nodo*);
 //-------------------------
 
 int main()
 {
+    int dato;
     char op;
     bool ext = false;
     nodo *raiz = NULL;
@@ -39,18 +45,47 @@ int main()
         {
         case '1':
             raiz = arbolAleatorio(raiz);
+            printf("\n");
             system("pause");
             break;
         case '2':
             //Ingresar Datos
-            printf("Ingrese Un Numero -> ");
-            
+            do
+            {
+                printf("\nIngrese -1 para Terminar");
+                printf("\nIngrese Un Numero -> ");
+                scanf("%d",&dato);
+                if(dato != -1)
+                {
+                    raiz = insertar(raiz,dato);
+                }
+            } while (dato != -1);
             break;
         case '3':
+            cont = 0;
+            contNodos(raiz);
+            printf("El numero de Nodos es -> %d\n",cont);
+            system("pause");
             break;
         case '4':
+            cont = 0;
+            //alturaArb(raiz);
+            printf("El arbol tiene una Altura -> %d Niveles\n",cont);
+            system("pause");
+            break;
+        case '5':
+            mostrarArbol(raiz);
+            system("pause");
+            break;
+        case '6':
+            liberar(raiz);
+            raiz = NULL;
+            printf("\nArbol eliminado\n");
+            system("pause");
             break;
         case '0':
+            ext = true;
+            liberar(raiz);
             break;
         default:
             break;
@@ -70,7 +105,9 @@ char menu()
     printf("3) Numero de Nodos Ingresado\n");
     printf("4) Altura del Arbol Binario\n");
     printf("5) Mostrar Arbol\n");
+    printf("6) Limpiar Arbol\n");
     printf("0) S A L I R\n");
+    printf("OPCION -> ");
     scanf("%c",&op);
     return op;
 }
@@ -120,3 +157,60 @@ nodo *arbolAleatorio(nodo *raiz)
     }
     return raiz;
 }
+
+void mostrarArbol(nodo *raiz)
+{//Arbol en inOrden
+    if(raiz != NULL)
+    {
+        mostrarArbol(raiz->izq);
+        printf("%d - ",raiz->dato);
+        mostrarArbol(raiz->der);
+    }
+}
+
+void liberar(nodo *ruta)
+{
+    nodo *eliminar = ruta;
+    if(eliminar != NULL)
+    {
+        liberar(eliminar->izq);
+        liberar(eliminar->der);
+        free(eliminar);
+    }
+
+    return;
+    
+}
+
+void contNodos(nodo *ruta)
+{
+    if(ruta != NULL)
+    {
+        contNodos(ruta->izq);
+        contNodos(ruta->der);
+        ++cont;
+    }
+}
+/*
+void alturaArb(nodo *raiz)
+{
+    nodo *ruta = raiz;
+    if(ruta->izq && ruta->der != NULL)
+    {
+        ++cont;
+        alturaArb(ruta->izq);
+        alturaArb(ruta->der);
+    }
+    else if(ruta->izq != NULL)
+    {
+        ++cont;
+        alturaArb(ruta->izq);
+
+    }
+    else if(ruta->der != NULL)
+    { 
+        ++cont;
+        alturaArb(ruta->der);
+    }
+    return;
+}*/
