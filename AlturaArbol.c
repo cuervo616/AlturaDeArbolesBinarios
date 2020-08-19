@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <time.h>
 
+#define MAXIMO(a,b)
 #define N 10
 
 //---Estructuras
@@ -19,14 +20,13 @@ typedef struct nodo
 int cont;
 //---Prototipos
 char menu();
-
+int alturaArb(nodo*);
 nodo *crearNodo(int dato);
 nodo *insertar(nodo *raiz,int dato);
 nodo *arbolAleatorio(nodo *raiz);
 void mostrarArbol(nodo *ruta);
 void liberar(nodo*);
 void contNodos(nodo *ruta);
-void alturaArb(nodo*);
 //-------------------------
 
 int main()
@@ -68,9 +68,8 @@ int main()
             system("pause");
             break;
         case '4':
-            cont = 0;
-            //alturaArb(raiz);
-            printf("El arbol tiene una Altura -> %d Niveles\n",cont);
+            cont = alturaArb(raiz);
+            printf("El arbol tiene una Altura -> %d\n",cont);
             system("pause");
             break;
         case '5':
@@ -191,26 +190,24 @@ void contNodos(nodo *ruta)
         ++cont;
     }
 }
-/*
-void alturaArb(nodo *raiz)
-{
-    nodo *ruta = raiz;
-    if(ruta->izq && ruta->der != NULL)
-    {
-        ++cont;
-        alturaArb(ruta->izq);
-        alturaArb(ruta->der);
-    }
-    else if(ruta->izq != NULL)
-    {
-        ++cont;
-        alturaArb(ruta->izq);
 
+int alturaArb(nodo *hoja)
+{
+    if(hoja != NULL)
+    {
+        int izq = 1 + alturaArb(hoja->izq);
+        int der = 1 + alturaArb(hoja->der);
+        if(izq > der)
+        {
+            return izq;
+        }
+        else
+        {
+            return der;
+        }
+        
     }
-    else if(ruta->der != NULL)
-    { 
-        ++cont;
-        alturaArb(ruta->der);
-    }
-    return;
-}*/
+    return 0;
+}
+
+
